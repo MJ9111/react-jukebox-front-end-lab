@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import TrackForm from './component/TrackForm';
 import TrackList from './component/TrackList';
 import NowPlaying from './component/NowPlaying';
+import Home from './component/Home';
+import './App.css';
 
 const App = () => {
   const [tracks, setTracks] = useState([]);
@@ -11,21 +13,21 @@ const App = () => {
   const [currentTrack, setCurrentTrack] = useState(null);
 
   const handleAddTrackClick = () => {
-    setTrackToEdit(null); // Ensure no track is being edited
+    setTrackToEdit(null); // Reset the track to edit
     setShowForm(true);
   };
 
   const handleEditTrackClick = (track) => {
-    setTrackToEdit(track);
-    setShowForm(true);
+    setTrackToEdit(track); // Set the track to edit
+    setShowForm(true);   
   };
 
   const handleTrackSubmit = (updatedTrack) => {
     if (trackToEdit) {
-      // Editing an existing track
+                             // Editing an existing track
       setTracks(tracks.map((track) => (track.id === updatedTrack.id ? updatedTrack : track)));
     } else {
-      // Adding a new track
+                             // Adding a new track
       setTracks([...tracks, { ...updatedTrack, id: Date.now() }]);
     }
     setShowForm(false);
@@ -36,11 +38,11 @@ const App = () => {
     setShowForm(false);
     setTrackToEdit(null);
   };
-//api call
+                             //api call
   const handleDeleteTrack = async (trackId) => {
     try {
       await fetch(`/api/tracks/${trackId}`, {
-        method: 'DELETE',
+        method: 'DELETE', // Delete the track
       });
       setTracks(tracks.filter((track) => track.id !== trackId));
     } catch (error) {
@@ -50,11 +52,15 @@ const App = () => {
   
 
   const handlePlayTrack = (track) => {
-    setCurrentTrack(track);
+    setCurrentTrack(track);  // Set the current track
   };
 
   return (
     <div>
+      <div>
+        <h1>Juke Box</h1>
+        <link rel="Home" href="/" />
+      </div>
       <button onClick={handleAddTrackClick}>Add New Track</button>
       {showForm && (
         <TrackForm
